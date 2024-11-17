@@ -19,5 +19,6 @@ class StartActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+        ha
     }
 }
