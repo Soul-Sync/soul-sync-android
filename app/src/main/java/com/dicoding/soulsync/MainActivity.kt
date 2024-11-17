@@ -33,4 +33,4 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
-}jangan di pull
+}
