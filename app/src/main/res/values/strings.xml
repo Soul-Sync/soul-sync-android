@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">SoulSync</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="profile">Profile\n</string>
+    <string name="title_daily_therapy">Daily Therapy</string>
+    <string name="title_music_relax">Music Relax</string>
+    <string name="title_profile">Profile</string>
+    <string name="selamat_datang">Selamat Datang...</string>
+    <string name="deskripsi_selamat_datang">Bahwa sesungguhnya kekayaan itu bukan terletak pada banyaknya harta benda, melainkan pada hati dan ketenangan jiwa.</string>
+    <string name="mulai">Mulai</string>
+
+</resources>
