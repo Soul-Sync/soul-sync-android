@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
-        // Tetap gunakan BottomNavigationView
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home, R.id.navigation_music_relax, R.id.navigation_daily_therapy, R.id.navigation_profile
