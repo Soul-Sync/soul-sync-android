@@ -10,5 +10,12 @@
     <string name="selamat_datang">Selamat Datang...</string>
     <string name="deskripsi_selamat_datang">Bahwa sesungguhnya kekayaan itu bukan terletak pada banyaknya harta benda, melainkan pada hati dan ketenangan jiwa.</string>
     <string name="mulai">Mulai</string>
+    <string name="illustration">illustration\n</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="no_account_register">Belum punya akun? Daftar Akun</string>
+    <string name="name">Name</string>
+    <string name="signup">Sign Up</string>
 
 </resources>

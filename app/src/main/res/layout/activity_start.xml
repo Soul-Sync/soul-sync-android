@@ -36,6 +36,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:text="@string/mulai"
-        android:backgroundTint="#FF4364"
-        android:textColor="#FFFFFF" />
+        android:backgroundTint="@color/pink"
+        android:textColor="@color/white" />
 </LinearLayout>
