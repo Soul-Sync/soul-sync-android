@@ -1,42 +1,29 @@
 package com.dicoding.soulsync.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Button
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.dicoding.soulsync.databinding.FragmentHomeBinding
+import com.dicoding.soulsync.R
+import com.dicoding.soulsync.ui.article.ArticleActivity
 
 class HomeFragment : Fragment() {
 
-    private var _binding: FragmentHomeBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
-
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        val buttonArticles: Button = view.findViewById(R.id.button_articles)
+        buttonArticles.setOnClickListener {
+            val intent = Intent(requireContext(), ArticleActivity::class.java)
+            startActivity(intent)
         }
-        return root
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        return view
     }
 }
