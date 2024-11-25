@@ -21,7 +21,7 @@ class DailyTherapyRepository(private val context: Context) {
             DailyTherapy("Tidur 30 Menit", isChecked("Tidur 30 Menit")),
             DailyTherapy("Meditasi", isChecked("Meditasi")),
             DailyTherapy("Olahraga ringan", isChecked("Olahraga ringan")),
-            DailyTherapy("Minum yg cukup", isChecked("Minum yg cukup"))
+            DailyTherapy("Minum yang cukup", isChecked("Minum yang cukup"))
         )
     }
 
