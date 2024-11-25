@@ -71,7 +71,4 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.10.0")
     implementation ("com.squareup.picasso:picasso:2.8")
-    implementation ("androidx.work:work-runtime-ktx:2.7.1")
-
-
 }
