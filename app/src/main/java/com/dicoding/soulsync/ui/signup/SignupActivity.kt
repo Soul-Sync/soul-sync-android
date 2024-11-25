@@ -1,44 +1,58 @@
 package com.dicoding.soulsync.ui.signup
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.dicoding.soulsync.R
+import com.dicoding.soulsync.api.ApiConfig
+import com.dicoding.soulsync.databinding.ActivitySignupBinding
+import com.dicoding.soulsync.model.UserRequest
+import com.dicoding.soulsync.model.UserResponse
+import com.dicoding.soulsync.ui.login.LoginActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SignupActivity : AppCompatActivity() {
-
-    private lateinit var nameEditText: EditText
-    private lateinit var emailEditText: EditText
-    private lateinit var passwordEditText: EditText
-    private lateinit var signupButton: Button
+    private lateinit var binding: ActivitySignupBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_signup)
+        binding = ActivitySignupBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        // Initialize views
-        nameEditText = findViewById(R.id.nameEditText)
-        emailEditText = findViewById(R.id.emailEditText)
-        passwordEditText = findViewById(R.id.passwordEditText)
-        signupButton = findViewById(R.id.signupButton)
+        // Listener tombol daftar
+        binding.signupButton.setOnClickListener {
+            val name = binding.nameEditText.text.toString().trim()
+            val email = binding.emailEditText.text.toString().trim()
+            val password = binding.passwordEditText.text.toString().trim()
 
-        // Handle signup button click
-        signupButton.setOnClickListener {
-            val name = nameEditText.text.toString().trim()
-            val email = emailEditText.text.toString().trim()
-            val password = passwordEditText.text.toString().trim()
-
-            if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
-                // Show error message
-                nameEditText.error = if (name.isEmpty()) "Name is required" else null
-                emailEditText.error = if (email.isEmpty()) "Email is required" else null
-                passwordEditText.error = if (password.isEmpty()) "Password is required" else null
+            if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
+                registerUser(name, email, password)
             } else {
-                // Proceed with signup (you can add API logic here)
-                // Example: Toast.makeText(this, "Account created successfully", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Semua data harus diisi!", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun registerUser(name: String, email: String, password: String) {
+        val apiService = ApiConfig.getApiService()
+        val registerRequest = UserRequest(name = name, email = email, password = password)
+
+        apiService.register(registerRequest).enqueue(object : Callback<UserResponse> {
+            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(this@SignupActivity, "Registrasi berhasil!", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this@SignupActivity, LoginActivity::class.java))
+                    finish() // Menutup SignupActivity
+                } else {
+                    Toast.makeText(this@SignupActivity, "Registrasi gagal: ${response.message()}", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                Toast.makeText(this@SignupActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }
