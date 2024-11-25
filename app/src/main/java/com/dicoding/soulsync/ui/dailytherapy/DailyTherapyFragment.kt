@@ -13,21 +13,20 @@ import com.dicoding.soulsync.databinding.FragmentDailyTherapyBinding
 class DailyTherapyFragment : Fragment() {
 
     private lateinit var dailyTherapyViewModel: DailyTherapyViewModel
-    private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: DailyTherapyAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         val binding = FragmentDailyTherapyBinding.inflate(inflater, container, false)
 
-        recyclerView = binding.recyclerViewDailyTherapy
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        adapter = DailyTherapyAdapter { therapy, isChecked ->
+            dailyTherapyViewModel.updateTherapyStatus(therapy, isChecked)
+        }
 
-        adapter = DailyTherapyAdapter()
-        recyclerView.adapter = adapter
+        binding.recyclerViewDailyTherapy.layoutManager = LinearLayoutManager(context)
+        binding.recyclerViewDailyTherapy.adapter = adapter
 
         dailyTherapyViewModel = ViewModelProvider(this)[DailyTherapyViewModel::class.java]
 
@@ -40,4 +39,3 @@ class DailyTherapyFragment : Fragment() {
         return binding.root
     }
 }
-

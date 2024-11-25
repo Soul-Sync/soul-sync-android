@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.soulsync.databinding.ItemDailyTherapyBinding
 import com.dicoding.soulsync.model.DailyTherapy
 
-class DailyTherapyAdapter : ListAdapter<DailyTherapy, DailyTherapyAdapter.DailyTherapyViewHolder>(DailyTherapyDiffCallback()) {
+class DailyTherapyAdapter(
+    private val onTherapyChecked: (DailyTherapy, Boolean) -> Unit
+) : ListAdapter<DailyTherapy, DailyTherapyAdapter.DailyTherapyViewHolder>(DailyTherapyDiffCallback()) {
 
     inner class DailyTherapyViewHolder(private val binding: ItemDailyTherapyBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -18,7 +20,7 @@ class DailyTherapyAdapter : ListAdapter<DailyTherapy, DailyTherapyAdapter.DailyT
             binding.checkBox.isChecked = therapy.isCompleted
 
             binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
-                therapy.isCompleted = isChecked
+                onTherapyChecked(therapy, isChecked)
             }
         }
     }

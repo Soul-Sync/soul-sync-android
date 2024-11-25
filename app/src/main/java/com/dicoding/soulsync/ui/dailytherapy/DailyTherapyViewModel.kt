@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class DailyTherapyViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val dailyTherapyRepository: DailyTherapyRepository = DailyTherapyRepository()
+    private val dailyTherapyRepository = DailyTherapyRepository(application.applicationContext)
     private val _dailyTherapies = MutableLiveData<List<DailyTherapy>>()
     val dailyTherapies: LiveData<List<DailyTherapy>> get() = _dailyTherapies
 
@@ -22,15 +22,10 @@ class DailyTherapyViewModel(application: Application) : AndroidViewModel(applica
         }
     }
 
-    fun updateTherapyStatus(
-        therapy: DailyTherapy,
-        isChecked: Boolean
-    ) {
+    fun updateTherapyStatus(therapy: DailyTherapy, isChecked: Boolean) {
         viewModelScope.launch {
             dailyTherapyRepository.updateTherapyStatus(therapy, isChecked)
-            _dailyTherapies.postValue(_dailyTherapies.value)
+            _dailyTherapies.postValue(_dailyTherapies.value) // Update UI
         }
     }
 }
-
-
