@@ -9,7 +9,7 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.dicoding.soulsync.R
 import com.dicoding.soulsync.ui.article.ArticleActivity
-import com.dicoding.soulsync.ui.login.LoginActivity
+
 
 class HomeFragment : Fragment() {
 

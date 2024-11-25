@@ -32,7 +32,6 @@ class ArticleViewModel : ViewModel() {
 
             override fun onFailure(call: Call<List<Article>>, t: Throwable) {
                 _isLoading.value = false
-                // Handle error
             }
         })
     }

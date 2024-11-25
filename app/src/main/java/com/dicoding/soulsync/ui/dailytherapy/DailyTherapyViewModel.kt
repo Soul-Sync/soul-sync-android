@@ -1,13 +1,36 @@
 package com.dicoding.soulsync.ui.dailytherapy
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.dicoding.soulsync.model.DailyTherapy
+import com.dicoding.soulsync.repository.DailyTherapyRepository
+import kotlinx.coroutines.launch
 
-class DailyTherapyViewModel : ViewModel() {
+class DailyTherapyViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is Daily Therapy Fragment"
+    private val dailyTherapyRepository: DailyTherapyRepository = DailyTherapyRepository()
+    private val _dailyTherapies = MutableLiveData<List<DailyTherapy>>()
+    val dailyTherapies: LiveData<List<DailyTherapy>> get() = _dailyTherapies
+
+    fun getDailyTherapies() {
+        viewModelScope.launch {
+            val therapies = dailyTherapyRepository.getDailyTherapies()
+            _dailyTherapies.postValue(therapies)
+        }
     }
-    val text: LiveData<String> = _text
+
+    fun updateTherapyStatus(
+        therapy: DailyTherapy,
+        isChecked: Boolean
+    ) {
+        viewModelScope.launch {
+            dailyTherapyRepository.updateTherapyStatus(therapy, isChecked)
+            _dailyTherapies.postValue(_dailyTherapies.value)
+        }
+    }
 }
+
+

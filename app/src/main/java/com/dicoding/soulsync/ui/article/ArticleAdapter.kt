@@ -1,5 +1,6 @@
 package com.dicoding.soulsync.ui.article
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,12 +31,11 @@ class ArticleAdapter(private var articles: List<Article>) :
         Glide.with(holder.itemView.context)
             .load(article.imageUrl)
             .into(holder.image)
-
-        // Tambahkan click listener jika ingin membuka detail artikel
     }
 
     override fun getItemCount() = articles.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateData(newArticles: List<Article>) {
         articles = newArticles
         notifyDataSetChanged()
