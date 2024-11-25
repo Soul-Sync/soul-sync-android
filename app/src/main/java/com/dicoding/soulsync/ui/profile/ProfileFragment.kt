@@ -1,42 +1,35 @@
 package com.dicoding.soulsync.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Button
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.dicoding.soulsync.databinding.FragmentProfileBinding
+import com.dicoding.soulsync.R
+import com.dicoding.soulsync.ui.login.LoginActivity
+import com.dicoding.soulsync.utils.SessionManager
 
 class ProfileFragment : Fragment() {
-
-    private var _binding: FragmentProfileBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(ProfileViewModel::class.java)
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
-        _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        sessionManager = SessionManager(requireContext())
 
-        val textView: TextView = binding.textProfile
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        val logoutButton: Button = view.findViewById(R.id.logoutButton)
+        logoutButton.setOnClickListener {
+            sessionManager.clearSession()
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
         }
-        return root
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        return view
     }
 }
