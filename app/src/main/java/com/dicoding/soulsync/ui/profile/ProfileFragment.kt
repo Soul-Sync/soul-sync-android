@@ -1,20 +1,30 @@
 package com.dicoding.soulsync.ui.profile
 
-
-import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.dicoding.soulsync.R
+import com.dicoding.soulsync.ui.login.LoginActivity
+import com.dicoding.soulsync.utils.SessionManager
 import java.util.Calendar
+import android.app.DatePickerDialog
 
-class ProfileFragment : Fragment(R.layout.fragment_profile) {
+class ProfileFragment : Fragment() {
+    private lateinit var sessionManager: SessionManager
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_profile, container, false)
+
+        sessionManager = SessionManager(requireContext())
 
         // Referensi ke EditText Tanggal Lahir
         val etBirthDate = view.findViewById<EditText>(R.id.etBirthDate)
@@ -31,11 +41,21 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
 
         // Tombol Logout
-        val btnLogout = view.findViewById<Button>(R.id.logoutButton)
-        btnLogout.setOnClickListener {
-            // Tambahkan logika logout sesuai kebutuhan
+        val logoutButton: Button = view.findViewById(R.id.logoutButton)
+        logoutButton.setOnClickListener {
+            // Clear session
+            sessionManager.clearSession()
+
+            // Logout dan kembali ke halaman login
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+
+            // Menampilkan toast untuk memberi tahu bahwa logout berhasil
             Toast.makeText(requireContext(), "Logout Berhasil", Toast.LENGTH_SHORT).show()
         }
+
+        return view
     }
 
     // Fungsi untuk menampilkan DatePickerDialog
