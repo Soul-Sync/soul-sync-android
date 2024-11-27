@@ -35,7 +35,7 @@ class ArticleActivity : AppCompatActivity() {
 
     private fun fetchArticles() {
         progressBar.visibility = View.VISIBLE
-        val client = ApiConfig.getApiService().getAllArticles()
+        val client = ApiConfig.getApiService(this).getAllArticles()
 
         client.enqueue(object : Callback<List<Article>> {
             override fun onResponse(

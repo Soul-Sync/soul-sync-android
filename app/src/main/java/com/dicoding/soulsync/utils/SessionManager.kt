@@ -24,8 +24,8 @@ class SessionManager(context: Context) {
         return prefs.getBoolean(IS_LOGGED_IN, false)
     }
 
-    fun getToken(): String? {
-        return prefs.getString(USER_TOKEN, null)
+    fun getUserToken(): String {
+        return prefs.getString(USER_TOKEN, "") ?: ""
     }
 
     fun clearSession() {

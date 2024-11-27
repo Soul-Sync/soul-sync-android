@@ -46,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val apiService = ApiConfig.getApiService()
+            val apiService = ApiConfig.getApiService(this)
             val loginRequest = UserRequest(email = email, password = password)
 
             apiService.login(loginRequest).enqueue(object : Callback<UserResponse> {
