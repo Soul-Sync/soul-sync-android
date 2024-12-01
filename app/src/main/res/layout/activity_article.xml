@@ -1,19 +1,23 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- ProgressBar di tengah -->
+    <!-- ProgressBar di tengah layar -->
     <ProgressBar
         android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone" />
+        android:layout_centerInParent="true"
+        android:visibility="gone"/> <!-- Awalnya disembunyikan -->
 
-    <!-- RecyclerView -->
+    <!-- RecyclerView untuk menampilkan daftar artikel -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvArticles"
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp" />
-</FrameLayout>
+        android:padding="16dp"
+        android:visibility="gone"/> <!-- Awalnya disembunyikan, muncul setelah data dimuat -->
+
+</RelativeLayout>

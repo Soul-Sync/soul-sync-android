@@ -2,57 +2,38 @@ package com.dicoding.soulsync.ui.article
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ProgressBar
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.dicoding.soulsync.R
-import com.dicoding.soulsync.api.ApiConfig
-import com.dicoding.soulsync.model.Article
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.dicoding.soulsync.databinding.ActivityArticleBinding
 
 class ArticleActivity : AppCompatActivity() {
-
-    private lateinit var rvArticles: RecyclerView
-    private lateinit var progressBar: ProgressBar
-    private lateinit var articleAdapter: ArticleAdapter
+    private lateinit var binding: ActivityArticleBinding
+    private val viewModel: ArticleViewModel by viewModels()
+    private lateinit var adapter: ArticleAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_article)
+        binding = ActivityArticleBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        rvArticles = findViewById(R.id.rvArticles)
-        progressBar = findViewById(R.id.progressBar)
+        adapter = ArticleAdapter(emptyList())
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.adapter = adapter
 
-        articleAdapter = ArticleAdapter(emptyList())
-        rvArticles.layoutManager = LinearLayoutManager(this)
-        rvArticles.adapter = articleAdapter
+        // Tampilkan ProgressBar sebelum data dimuat
+        binding.progressBar.visibility = View.VISIBLE
+        binding.recyclerView.visibility = View.GONE
 
-        fetchArticles()
-    }
+        viewModel.articles.observe(this) { articles ->
+            // Setelah data dimuat, sembunyikan ProgressBar dan tampilkan RecyclerView
+            binding.progressBar.visibility = View.GONE
+            binding.recyclerView.visibility = View.VISIBLE
 
-    private fun fetchArticles() {
-        progressBar.visibility = View.VISIBLE
-        val client = ApiConfig.getApiService(this).getAllArticles()
+            // Update data adapter
+            adapter.updateData(articles)
+        }
 
-        client.enqueue(object : Callback<List<Article>> {
-            override fun onResponse(
-                call: Call<List<Article>>,
-                response: Response<List<Article>>
-            ) {
-                progressBar.visibility = View.GONE
-                if (response.isSuccessful) {
-                    val articles = response.body() ?: emptyList()
-                    articleAdapter.updateData(articles)
-                }
-            }
-
-            override fun onFailure(call: Call<List<Article>>, t: Throwable) {
-                progressBar.visibility = View.GONE
-                // Tampilkan pesan kesalahan
-            }
-        })
+        viewModel.fetchArticles()
     }
 }

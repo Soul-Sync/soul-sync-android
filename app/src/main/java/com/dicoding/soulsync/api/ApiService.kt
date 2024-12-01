@@ -1,24 +1,20 @@
 package com.dicoding.soulsync.api
 
-import com.dicoding.soulsync.model.Article
-import com.dicoding.soulsync.model.UserRequest
-import com.dicoding.soulsync.model.UserResponse
+import com.dicoding.soulsync.model.LoginRequest
+import com.dicoding.soulsync.model.LoginResponse
+import com.dicoding.soulsync.model.RegisterRequest
+import com.dicoding.soulsync.model.RegisterResponse
 import retrofit2.Call
 import retrofit2.http.Body
-import retrofit2.http.GET
 import retrofit2.http.POST
-import retrofit2.http.Path
+
 
 interface ApiService {
-    @GET("article/")
-    fun getAllArticles(): Call<List<Article>>
-
-    @GET("article/{id}")
-    fun getArticleDetail(@Path("id") articleId: String): Call<Article>
+    @POST("auth/login")
+    fun login(@Body request: LoginRequest): Call<LoginResponse>
 
     @POST("auth/register")
-    fun register(@Body request: UserRequest): Call<UserResponse>
+    fun register(@Body request: RegisterRequest): Call<RegisterResponse>
 
-    @POST("auth/login")
-    fun login(@Body request: UserRequest): Call<UserResponse>
+
 }

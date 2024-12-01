@@ -1,43 +1,44 @@
 package com.dicoding.soulsync.ui.article
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.dicoding.soulsync.R
+import com.dicoding.soulsync.databinding.ItemArticleBinding
 import com.dicoding.soulsync.model.Article
+import com.squareup.picasso.Picasso
 
 class ArticleAdapter(private var articles: List<Article>) :
-    RecyclerView.Adapter<ArticleAdapter.ViewHolder>() {
+    RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val title: TextView = view.findViewById(R.id.tvTitle)
-        val image: ImageView = view.findViewById(R.id.ivImage)
+    inner class ArticleViewHolder(private val binding: ItemArticleBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(article: Article) {
+            binding.tvTitle.text = article.title
+            binding.tvSource.text = article.source.name  // Akses nama sumber dari objek `source`
+
+            Picasso.get()
+                .load(article.thumbnail)
+                .placeholder(R.drawable.image)
+                .into(binding.ivThumbnail)
+        }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_article, parent, false)
-        return ViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
+        val binding = ItemArticleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ArticleViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val article = articles[position]
-        holder.title.text = article.title
-        Glide.with(holder.itemView.context)
-            .load(article.imageUrl)
-            .into(holder.image)
+    override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
+        holder.bind(articles[position])
     }
-
-    override fun getItemCount() = articles.size
-
-    @SuppressLint("NotifyDataSetChanged")
     fun updateData(newArticles: List<Article>) {
         articles = newArticles
         notifyDataSetChanged()
     }
+
+    override fun getItemCount(): Int = articles.size
 }
+
+

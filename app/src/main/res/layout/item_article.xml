@@ -1,21 +1,44 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp">
 
-    <ImageView
-        android:id="@+id/ivImage"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:scaleType="centerCrop" />
-
-    <TextView
-        android:id="@+id/tvTitle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:textColor="#000"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-</LinearLayout>
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:background="@drawable/background_gradient">
+
+        <ImageView
+            android:id="@+id/ivThumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/rounded_corners"
+            android:clipToOutline="true" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:paddingTop="8dp"
+            android:textColor="@android:color/black"/>
+
+        <TextView
+            android:id="@+id/tvSource"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"
+            android:paddingTop="4dp" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

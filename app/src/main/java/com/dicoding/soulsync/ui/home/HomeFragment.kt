@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import com.dicoding.soulsync.R
 import com.dicoding.soulsync.ui.article.ArticleActivity
 
-
 class HomeFragment : Fragment() {
 
     override fun onCreateView(
@@ -19,8 +18,8 @@ class HomeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        val buttonArticles: Button = view.findViewById(R.id.button_articles)
-        buttonArticles.setOnClickListener {
+        val button = view.findViewById<Button>(R.id.btn_open_articles)
+        button.setOnClickListener {
             val intent = Intent(requireContext(), ArticleActivity::class.java)
             startActivity(intent)
         }
