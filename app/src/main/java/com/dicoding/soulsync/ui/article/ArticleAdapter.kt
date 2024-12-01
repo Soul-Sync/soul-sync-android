@@ -1,5 +1,6 @@
 package com.dicoding.soulsync.ui.article
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -16,12 +17,21 @@ class ArticleAdapter(private var articles: List<Article>) :
 
         fun bind(article: Article) {
             binding.tvTitle.text = article.title
-            binding.tvSource.text = article.source.name  // Akses nama sumber dari objek `source`
+            binding.tvSource.text = article.source.name
 
+            // Memuat gambar dengan Picasso
             Picasso.get()
                 .load(article.thumbnail)
                 .placeholder(R.drawable.image)
                 .into(binding.ivThumbnail)
+
+            // Tambahkan klik listener
+            binding.root.setOnClickListener {
+                val context = binding.root.context
+                val intent = Intent(context, DetailArticleActivity::class.java)
+                intent.putExtra(DetailArticleActivity.EXTRA_URL, article.link)
+                context.startActivity(intent)
+            }
         }
     }
 
@@ -33,6 +43,7 @@ class ArticleAdapter(private var articles: List<Article>) :
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         holder.bind(articles[position])
     }
+
     fun updateData(newArticles: List<Article>) {
         articles = newArticles
         notifyDataSetChanged()
@@ -40,5 +51,3 @@ class ArticleAdapter(private var articles: List<Article>) :
 
     override fun getItemCount(): Int = articles.size
 }
-
-
