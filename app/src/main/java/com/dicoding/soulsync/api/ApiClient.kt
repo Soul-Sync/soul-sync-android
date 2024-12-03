@@ -10,7 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
-    private const val BASE_URL = "https://dicoding-442102.et.r.appspot.com/"
+    private const val BASE_URL = "https://soul-sync-442212.et.r.appspot.com "
 
     // Tambahkan interceptor untuk menambahkan Bearer Token
     private fun provideAuthInterceptor(preference: UserPreference): Interceptor {
