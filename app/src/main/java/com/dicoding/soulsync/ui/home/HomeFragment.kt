@@ -33,16 +33,16 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Observe articles from ViewModel
+
         articleViewModel.articles.observe(viewLifecycleOwner) { articles ->
-            val topArticles = articles.take(8) // Ambil 8 artikel teratas
+            val topArticles = articles.take(8)
             displayArticles(topArticles)
         }
 
-        // Fetch articles from API
+
         articleViewModel.fetchArticles()
 
-        // Tombol "See All" untuk membuka ArticleActivity
+
         binding.tvSeeAll.setOnClickListener {
             val intent = Intent(requireContext(), ArticleActivity::class.java)
             startActivity(intent)
@@ -50,7 +50,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun displayArticles(articles: List<Article>) {
-        binding.articlesContainer.removeAllViews() // Hapus artikel lama sebelum menambahkan yang baru
+        binding.articlesContainer.removeAllViews()
 
         for (article in articles) {
             val articleBinding = ItemArticleCardBinding.inflate(
@@ -67,14 +67,13 @@ class HomeFragment : Fragment() {
                 .placeholder(R.drawable.image)
                 .into(articleBinding.ivThumbnail)
 
-            // Set klik listener untuk navigasi ke DetailArticleActivity
+
             articleBinding.root.setOnClickListener {
                 val intent = Intent(requireContext(), DetailArticleActivity::class.java)
                 intent.putExtra(DetailArticleActivity.EXTRA_URL, article.link)
                 startActivity(intent)
             }
 
-            // Tambahkan ke container
             binding.articlesContainer.addView(articleBinding.root)
         }
     }

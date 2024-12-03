@@ -17,5 +17,10 @@
     <string name="no_account_register">Belum punya akun? Daftar Akun</string>
     <string name="name">Name</string>
     <string name="signup">Sign Up</string>
+    <string name="search_button_desc">search</string>
+    <string name="back_button_desc">back</string>
+    <string name="article_title">Artikel</string>
+    <string name="search_hint">Enter keyword...</string>
+    <string name="no_results_found">Artikel tidak ditemukan</string>
 
 </resources>
