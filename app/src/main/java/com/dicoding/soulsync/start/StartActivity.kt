@@ -9,6 +9,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.dicoding.soulsync.MainActivity
 import com.dicoding.soulsync.R
+import com.dicoding.soulsync.ui.login.LoginActivity
 
 class StartActivity : AppCompatActivity() {
 
@@ -28,7 +29,7 @@ class StartActivity : AppCompatActivity() {
         imageAnimator.start()
 
         startButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }

@@ -14,6 +14,7 @@ import com.dicoding.soulsync.model.Article
 import com.dicoding.soulsync.ui.article.ArticleActivity
 import com.dicoding.soulsync.ui.article.ArticleViewModel
 import com.dicoding.soulsync.ui.article.DetailArticleActivity
+import com.dicoding.soulsync.ui.questionnaire.QuestionnaireActivity
 import com.squareup.picasso.Picasso
 
 class HomeFragment : Fragment() {
@@ -33,16 +34,21 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.btnStart.setOnClickListener {
+            val intent = Intent(requireContext(), QuestionnaireActivity::class.java)
+            startActivity(intent)
+        }
 
+        // Observe articles from ViewModel
         articleViewModel.articles.observe(viewLifecycleOwner) { articles ->
-            val topArticles = articles.take(8)
+            val topArticles = articles.take(8) // Ambil 8 artikel teratas
             displayArticles(topArticles)
         }
 
-
+        // Fetch articles from API
         articleViewModel.fetchArticles()
 
-
+        // Tombol "See All" untuk membuka ArticleActivity
         binding.tvSeeAll.setOnClickListener {
             val intent = Intent(requireContext(), ArticleActivity::class.java)
             startActivity(intent)
@@ -50,7 +56,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun displayArticles(articles: List<Article>) {
-        binding.articlesContainer.removeAllViews()
+        binding.articlesContainer.removeAllViews() // Hapus artikel lama sebelum menambahkan yang baru
 
         for (article in articles) {
             val articleBinding = ItemArticleCardBinding.inflate(
@@ -67,13 +73,14 @@ class HomeFragment : Fragment() {
                 .placeholder(R.drawable.image)
                 .into(articleBinding.ivThumbnail)
 
-
+            // Set klik listener untuk navigasi ke DetailArticleActivity
             articleBinding.root.setOnClickListener {
                 val intent = Intent(requireContext(), DetailArticleActivity::class.java)
                 intent.putExtra(DetailArticleActivity.EXTRA_URL, article.link)
                 startActivity(intent)
             }
 
+            // Tambahkan ke container
             binding.articlesContainer.addView(articleBinding.root)
         }
     }

@@ -22,5 +22,7 @@
     <string name="article_title">Artikel</string>
     <string name="search_hint">Enter keyword...</string>
     <string name="no_results_found">Artikel tidak ditemukan</string>
+    <string name="kuisioner_title">Cek Kesehatan Mental</string>
+    <string name="mulai_kuisioner">Mulai Kuisioner</string>
 
 </resources>
