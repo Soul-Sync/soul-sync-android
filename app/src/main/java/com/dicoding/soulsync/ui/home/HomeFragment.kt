@@ -41,7 +41,7 @@ class HomeFragment : Fragment() {
 
         // Observe articles from ViewModel
         articleViewModel.articles.observe(viewLifecycleOwner) { articles ->
-            val topArticles = articles.take(8) // Ambil 8 artikel teratas
+            val topArticles = articles.take(12) // Ambil 8 artikel teratas
             displayArticles(topArticles)
         }
 
