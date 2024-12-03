@@ -15,7 +15,7 @@ class MusicRelaxFragment : Fragment() {
     private var _binding: FragmentMusicRelaxBinding? = null
     private val binding get() = _binding!!
 
-    private val musicRelaxViewModel: MusicRelaxViewModel by viewModels() // Menggunakan delegate viewModels() untuk lebih bersih
+    private val musicRelaxViewModel: MusicRelaxViewModel by viewModels()
     private lateinit var adapter: MusicRelaxAdapter
 
     override fun onCreateView(
@@ -24,20 +24,32 @@ class MusicRelaxFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMusicRelaxBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        // Inisialisasi Adapter
-        adapter = MusicRelaxAdapter(emptyList(), emptyList()) // Awalnya kosong
+        setupRecyclerView()
+        observeMusicList()
+        setupBackButton() // Tambahkan listener untuk tombol kembali
+
+        return binding.root
+    }
+
+    private fun setupRecyclerView() {
+        adapter = MusicRelaxAdapter(emptyList(), emptyList())
         binding.recyclerViewMusicRelax.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewMusicRelax.adapter = adapter
+    }
 
-        // Observasi LiveData dari ViewModel
+    private fun observeMusicList() {
         musicRelaxViewModel.musicList.observe(viewLifecycleOwner) { musicList ->
-            val musicImages = musicList.map { R.drawable.contoh_gambar_lagu } // Sesuaikan dengan gambar untuk lagu
-            adapter.updateData(musicList, musicImages) // Perbarui data di adapter
+            val musicImages = musicList.map { R.drawable.contoh_gambar_lagu }
+            adapter.updateData(musicList, musicImages)
         }
+    }
 
-        return root
+    private fun setupBackButton() {
+        binding.btnBack.setOnClickListener {
+            // Navigasi ke halaman sebelumnya
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     override fun onDestroyView() {
@@ -45,5 +57,3 @@ class MusicRelaxFragment : Fragment() {
         _binding = null
     }
 }
-
-
