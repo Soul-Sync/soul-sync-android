@@ -25,5 +25,11 @@
     <string name="kuisioner_title">Cek Kesehatan Mental</string>
     <string name="mulai_kuisioner">Mulai Kuisioner</string>
     <string name="therapy_title">Daily Therapy</string>
+    <string name="save_changes">Save</string>
+    <string name="female">Female\n</string>
+    <string name="male">Male</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="profile_image">profile image</string>
+    <string name="profile_saved">profile saved</string>
 
 </resources>
