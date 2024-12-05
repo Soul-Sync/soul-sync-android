@@ -1,48 +1,59 @@
+package com.dicoding.soulsync.ui.profile
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class ProfileViewModel : ViewModel() {
 
-    // LiveData untuk nama pengguna
     private val _name = MutableLiveData<String>()
-    val name: LiveData<String> = _name
+    val name: LiveData<String> get() = _name
 
-    // LiveData untuk tanggal lahir
     private val _dateOfBirth = MutableLiveData<String>()
-    val dateOfBirth: LiveData<String> = _dateOfBirth
+    val dateOfBirth: LiveData<String> get() = _dateOfBirth
 
-    // LiveData untuk jenis kelamin
     private val _gender = MutableLiveData<String>()
-    val gender: LiveData<String> = _gender
+    val gender: LiveData<String> get() = _gender
 
-    // LiveData untuk email
     private val _email = MutableLiveData<String>()
-    val email: LiveData<String> = _email
+    val email: LiveData<String> get() = _email
 
-    // Fungsi untuk memperbarui nama
-    fun updateName(newName: String) {
-        _name.value = newName
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean> get() = _loading
+
+    // Simulasi data awal profil
+    init {
+        loadInitialProfile()
     }
 
-    // Fungsi untuk memperbarui tanggal lahir
-    fun updateDateOfBirth(newDate: String) {
-        _dateOfBirth.value = newDate
+    private fun loadInitialProfile() {
+        _loading.value = true
+        // Simulasikan pengambilan data dari API atau database
+        _name.value = "John Doe"
+        _dateOfBirth.value = "1990-01-01"
+        _gender.value = "Male"
+        _email.value = "johndoe@example.com"
+        _loading.value = false
     }
 
-    // Fungsi untuk memperbarui jenis kelamin
-    fun updateGender(newGender: String) {
-        _gender.value = newGender
+    fun setProfile(name: String, dateOfBirth: String, gender: String, email: String) {
+        _name.value = name
+        _dateOfBirth.value = dateOfBirth
+        _gender.value = gender
+        _email.value = email
     }
 
-    // Fungsi untuk memperbarui email
-    fun updateEmail(newEmail: String) {
-        _email.value = newEmail
+    fun saveProfile(name: String, dateOfBirth: String, gender: String, email: String) {
+        _loading.value = true
+        // Simulasikan penyimpanan data
+        _name.value = name
+        _dateOfBirth.value = dateOfBirth
+        _gender.value = gender
+        _email.value = email
+        _loading.value = false
     }
 
-    // Fungsi untuk menyimpan data profil
-    fun saveProfile() {
-        // Di sini, Anda bisa menyimpan data ke database atau API
-        // Implementasi logika penyimpanan sesuai kebutuhan Anda
+    fun logout() {
+        // Tambahkan logika logout di sini
     }
 }

@@ -1,62 +1,91 @@
+package com.dicoding.soulsync.ui.profile
+
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
+import android.view.ViewGroup
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.dicoding.soulsync.R
-import com.dicoding.soulsync.databinding.FragmentProfileBinding
 
-class ProfileFragment : Fragment(R.layout.fragment_profile) {
+class ProfileFragment : Fragment() {
 
-    private var _binding: FragmentProfileBinding? = null
-    private val binding get() = _binding!!
+    private val viewModel: ProfileViewModel by viewModels()
 
-    private val profileViewModel: ProfileViewModel by viewModels()
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val rootView = inflater.inflate(R.layout.fragment_profile, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentProfileBinding.bind(view)
+        val progressBar = rootView.findViewById<ProgressBar>(R.id.progressBar)
+        val imgProfile = rootView.findViewById<ImageView>(R.id.imgProfile)
+        val etName = rootView.findViewById<EditText>(R.id.etName)
+        val etDateOfBirth = rootView.findViewById<EditText>(R.id.etDateOfBirth)
+        val rbMale = rootView.findViewById<RadioButton>(R.id.rbMale)
+        val rbFemale = rootView.findViewById<RadioButton>(R.id.rbFemale)
+        val etEmail = rootView.findViewById<EditText>(R.id.etEmail)
+        val btnSave = rootView.findViewById<Button>(R.id.btnSave)
+        val logoutButton = rootView.findViewById<Button>(R.id.logoutButton)
 
-        // Observe LiveData
-        profileViewModel.name.observe(viewLifecycleOwner, Observer { name ->
-            binding.etName.setText(name)
-        })
-
-        profileViewModel.dateOfBirth.observe(viewLifecycleOwner, Observer { dateOfBirth ->
-            binding.etDateOfBirth.setText(dateOfBirth)
-        })
-
-        profileViewModel.gender.observe(viewLifecycleOwner, Observer { gender ->
-            when (gender) {
-                getString(R.string.male) -> binding.rbMale.isChecked = true
-                getString(R.string.female) -> binding.rbFemale.isChecked = true
-            }
-        })
-
-        profileViewModel.email.observe(viewLifecycleOwner, Observer { email ->
-            binding.etEmail.setText(email)
-        })
-
-        // Set up listeners for Save button
-        binding.btnSave.setOnClickListener {
-            val name = binding.etName.text.toString()
-            val dateOfBirth = binding.etDateOfBirth.text.toString()
-            val gender = if (binding.rbMale.isChecked) getString(R.string.male) else getString(R.string.female)
-            val email = binding.etEmail.text.toString()
-
-            profileViewModel.updateName(name)
-            profileViewModel.updateDateOfBirth(dateOfBirth)
-            profileViewModel.updateGender(gender)
-            profileViewModel.updateEmail(email)
-
-            profileViewModel.saveProfile()
-            Toast.makeText(requireContext(), getString(R.string.profile_saved), Toast.LENGTH_SHORT).show()
+        // Observe loading state
+        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+            progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        // Observe and bind profile data
+        viewModel.name.observe(viewLifecycleOwner) { name ->
+            etName.setText(name)
+        }
+
+        viewModel.dateOfBirth.observe(viewLifecycleOwner) { dateOfBirth ->
+            etDateOfBirth.setText(dateOfBirth)
+        }
+
+        viewModel.gender.observe(viewLifecycleOwner) { gender ->
+            rbMale.isChecked = gender == getString(R.string.male)
+            rbFemale.isChecked = gender == getString(R.string.female)
+        }
+
+        viewModel.email.observe(viewLifecycleOwner) { email ->
+            etEmail.setText(email)
+        }
+
+        // Load profile image
+        Glide.with(this)
+            .load("https://example.com/profile.jpg") // Ganti URL dengan sumber gambar sebenarnya
+            .placeholder(R.drawable.profile)
+            .into(imgProfile)
+
+        // Save profile on button click
+        btnSave.setOnClickListener {
+            val name = etName.text.toString()
+            val dateOfBirth = etDateOfBirth.text.toString()
+            val gender = if (rbMale.isChecked) getString(R.string.male) else getString(R.string.female)
+            val email = etEmail.text.toString()
+
+            viewModel.saveProfile(name, dateOfBirth, gender, email)
+        }
+
+        btnSave.setOnClickListener {
+            val name = etName.text.toString()
+            val dateOfBirth = etDateOfBirth.text.toString()
+            val gender = if (rbMale.isChecked) getString(R.string.male) else getString(R.string.female)
+            val email = etEmail.text.toString()
+
+            // Panggil setProfile untuk memperbarui data di ViewModel
+            viewModel.setProfile(name, dateOfBirth, gender, email)
+        }
+
+
+        // Logout button functionality
+        logoutButton.setOnClickListener {
+            viewModel.logout()
+            Toast.makeText(context, "Logged out", Toast.LENGTH_SHORT).show()
+        }
+
+        return rootView
     }
 }
