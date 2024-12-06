@@ -1,91 +1,109 @@
 package com.dicoding.soulsync.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import com.bumptech.glide.Glide
-import com.dicoding.soulsync.R
+import androidx.lifecycle.lifecycleScope
+import com.dicoding.soulsync.api.ApiClient
+import com.dicoding.soulsync.databinding.FragmentProfileBinding
+import com.dicoding.soulsync.model.ProfileResponse
+import com.dicoding.soulsync.ui.login.LoginActivity
+import com.dicoding.soulsync.utils.UserPreference
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment() {
 
-    private val viewModel: ProfileViewModel by viewModels()
+    private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var userPreference: UserPreference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_profile, container, false)
+    ): View {
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        val progressBar = rootView.findViewById<ProgressBar>(R.id.progressBar)
-        val imgProfile = rootView.findViewById<ImageView>(R.id.imgProfile)
-        val etName = rootView.findViewById<EditText>(R.id.etName)
-        val etDateOfBirth = rootView.findViewById<EditText>(R.id.etDateOfBirth)
-        val rbMale = rootView.findViewById<RadioButton>(R.id.rbMale)
-        val rbFemale = rootView.findViewById<RadioButton>(R.id.rbFemale)
-        val etEmail = rootView.findViewById<EditText>(R.id.etEmail)
-        val btnSave = rootView.findViewById<Button>(R.id.btnSave)
-        val logoutButton = rootView.findViewById<Button>(R.id.logoutButton)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        // Observe loading state
-        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
-            progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        userPreference = UserPreference(requireContext())
+
+        // Fetch Profile Data
+        fetchProfile()
+
+        // Button Update Profile
+        binding.updateProfileButton.setOnClickListener {
+            startActivity(Intent(requireContext(), EditProfileActivity::class.java))
         }
 
-        // Observe and bind profile data
-        viewModel.name.observe(viewLifecycleOwner) { name ->
-            etName.setText(name)
+        // Button Logout
+        binding.logoutButton.setOnClickListener {
+            performLogout()
         }
+    }
 
-        viewModel.dateOfBirth.observe(viewLifecycleOwner) { dateOfBirth ->
-            etDateOfBirth.setText(dateOfBirth)
+    private fun fetchProfile() {
+        lifecycleScope.launch {
+            try {
+                // Tampilkan ProgressBar
+                binding.progressBar.visibility = View.VISIBLE
+
+                val token = userPreference.token.firstOrNull()
+                val apiClient = ApiClient(token).createService()
+                val response: ProfileResponse = apiClient.getProfile()
+
+                if (response.status == "success") {
+                    val user = response.payload.user
+                    binding.nameTextView.text = "Name: ${user.name}"
+                    binding.dateTextView.text = "Date of Birth: ${user.date_of_birth}"
+                    binding.genderTextView.text = "Gender: ${user.gender}"
+                } else {
+                    Toast.makeText(requireContext(), response.message, Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Log.e("ProfileFragment", "Error fetching profile: ${e.message}")
+                Toast.makeText(requireContext(), "Failed to fetch profile", Toast.LENGTH_SHORT).show()
+            } finally {
+                // Sembunyikan ProgressBar
+                binding.progressBar.visibility = View.GONE
+            }
         }
+    }
 
-        viewModel.gender.observe(viewLifecycleOwner) { gender ->
-            rbMale.isChecked = gender == getString(R.string.male)
-            rbFemale.isChecked = gender == getString(R.string.female)
+
+    private fun performLogout() {
+        lifecycleScope.launch {
+            try {
+                // Tampilkan ProgressBar
+                binding.progressBar.visibility = View.VISIBLE
+
+                userPreference.clearToken()
+                Toast.makeText(requireContext(), "Logged out successfully", Toast.LENGTH_SHORT).show()
+
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+            } catch (e: Exception) {
+                Log.e("ProfileFragment", "Error logging out: ${e.message}")
+                Toast.makeText(requireContext(), "Failed to log out", Toast.LENGTH_SHORT).show()
+            } finally {
+                // Sembunyikan ProgressBar
+                binding.progressBar.visibility = View.GONE
+            }
         }
-
-        viewModel.email.observe(viewLifecycleOwner) { email ->
-            etEmail.setText(email)
-        }
-
-        // Load profile image
-        Glide.with(this)
-            .load("https://example.com/profile.jpg") // Ganti URL dengan sumber gambar sebenarnya
-            .placeholder(R.drawable.profile)
-            .into(imgProfile)
-
-        // Save profile on button click
-        btnSave.setOnClickListener {
-            val name = etName.text.toString()
-            val dateOfBirth = etDateOfBirth.text.toString()
-            val gender = if (rbMale.isChecked) getString(R.string.male) else getString(R.string.female)
-            val email = etEmail.text.toString()
-
-            viewModel.saveProfile(name, dateOfBirth, gender, email)
-        }
-
-        btnSave.setOnClickListener {
-            val name = etName.text.toString()
-            val dateOfBirth = etDateOfBirth.text.toString()
-            val gender = if (rbMale.isChecked) getString(R.string.male) else getString(R.string.female)
-            val email = etEmail.text.toString()
-
-            // Panggil setProfile untuk memperbarui data di ViewModel
-            viewModel.setProfile(name, dateOfBirth, gender, email)
-        }
+    }
 
 
-        // Logout button functionality
-        logoutButton.setOnClickListener {
-            viewModel.logout()
-            Toast.makeText(context, "Logged out", Toast.LENGTH_SHORT).show()
-        }
-
-        return rootView
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

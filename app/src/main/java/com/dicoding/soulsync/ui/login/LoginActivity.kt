@@ -1,79 +1,76 @@
 package com.dicoding.soulsync.ui.login
 
+import com.dicoding.soulsync.MainActivity
+import com.dicoding.soulsync.api.ApiClient
+import com.dicoding.soulsync.databinding.ActivityLoginBinding
+import com.dicoding.soulsync.model.LoginResponse
+import com.dicoding.soulsync.utils.UserPreference
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.dicoding.soulsync.AuthViewModel
-import com.dicoding.soulsync.MainActivity
-import com.dicoding.soulsync.databinding.ActivityLoginBinding
-import com.dicoding.soulsync.ui.ViewModelFactory
 import com.dicoding.soulsync.ui.signup.SignupActivity
-import com.dicoding.soulsync.utils.UserPreference
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityLoginBinding
 
-    // Inisialisasi ViewModel dengan ViewModelFactory
-    private val authViewModel: AuthViewModel by viewModels {
-        ViewModelFactory(UserPreference.getInstance(applicationContext))
-    }
+    private lateinit var binding: ActivityLoginBinding
+    private lateinit var userPreference: UserPreference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupListeners()
-        observeViewModel()
-    }
+        userPreference = UserPreference(this)
 
-    private fun setupListeners() {
         binding.loginButton.setOnClickListener {
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
-                showLoading(true)
-                authViewModel.login(email, password)
+                login(email, password)
             } else {
-                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             }
         }
-
+        // Handle Register Text Click
         binding.registerTextView.setOnClickListener {
             val intent = Intent(this, SignupActivity::class.java)
             startActivity(intent)
         }
     }
 
-    private fun observeViewModel() {
-        authViewModel.loginResult.observe(this) { response ->
-            showLoading(false)
-            if (response.status == "success") {
-                Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
 
-                // Simpan sesi login ke DataStore
-                lifecycleScope.launch {
-                    val userPreference = UserPreference.getInstance(applicationContext)
-                    userPreference.saveSession(response)
+    private fun login(email: String, password: String) {
+        val apiClient = ApiClient(null).createService()
+        val requestBody = mapOf("email" to email, "password" to password)
+
+        lifecycleScope.launch {
+            try {
+                binding.progressBar.visibility = View.VISIBLE
+                val response: LoginResponse = apiClient.login(requestBody)
+
+                if (response.status == "success") {
+                    val token = response.payload.token
+                    saveTokenAndProceed(token)
+                } else {
+                    Toast.makeText(this@LoginActivity, response.message, Toast.LENGTH_SHORT).show()
                 }
-
-                // Pindah ke MainActivity
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                finish()
-            } else {
-                Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
+            } catch (e: Exception) {
+                Toast.makeText(this@LoginActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            } finally {
+                binding.progressBar.visibility = View.GONE
             }
         }
     }
 
-    private fun showLoading(isLoading: Boolean) {
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    private suspend fun saveTokenAndProceed(token: String) {
+        userPreference.saveToken(token)
+        Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
+        startActivity(Intent(this, MainActivity::class.java)) // Redirect to MainActivity
+        finish()
     }
 }

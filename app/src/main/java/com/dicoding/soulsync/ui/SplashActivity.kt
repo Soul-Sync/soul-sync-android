@@ -3,6 +3,7 @@ package com.dicoding.soulsync.ui
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.dicoding.soulsync.MainActivity
@@ -20,19 +21,25 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        val userPreference = UserPreference.getInstance(applicationContext)
+        val userPreference = UserPreference(applicationContext)
 
         lifecycleScope.launch {
             delay(3000) // Menunggu animasi splash selesai
 
-            // Mengambil nilai dari Flow menggunakan firstOrNull
-            val isLoggedIn = userPreference.isLoggedIn().firstOrNull() ?: false
+            // Ambil token dari UserPreference
+            val token = userPreference.token.firstOrNull()
 
-            if (isLoggedIn) {
-                // Jika sudah login, redirect ke MainActivity
+            if (!token.isNullOrEmpty()) {
+                // Log untuk memastikan token tersedia
+                Log.d("SplashActivity", "Token ditemukan: $token")
+
+                // Redirect ke MainActivity
                 startActivity(Intent(this@SplashActivity, MainActivity::class.java))
             } else {
-                // Jika belum login, redirect ke StartActivity
+                // Log jika token tidak tersedia
+                Log.d("SplashActivity", "Token tidak ditemukan, mengarahkan ke StartActivity.")
+
+                // Redirect ke StartActivity
                 startActivity(Intent(this@SplashActivity, StartActivity::class.java))
             }
             finish()

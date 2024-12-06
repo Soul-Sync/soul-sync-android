@@ -1,20 +1,32 @@
 package com.dicoding.soulsync.api
 
-import com.dicoding.soulsync.model.LoginRequest
 import com.dicoding.soulsync.model.LoginResponse
-import com.dicoding.soulsync.model.RegisterRequest
+import com.dicoding.soulsync.model.ProfileResponse
 import com.dicoding.soulsync.model.RegisterResponse
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 
 interface ApiService {
-    @POST("auth/login")
-    fun login(@Body request: LoginRequest): Call<LoginResponse>
+    @POST("/auth/login")
+    suspend fun login(
+        @Body loginRequest: Map<String, String>
+    ): LoginResponse
 
-    @POST("auth/register")
-    fun register(@Body request: RegisterRequest): Call<RegisterResponse>
+    @POST("/auth/register")
+    suspend fun register(
+        @Body registerRequest: Map<String, String>
+    ): RegisterResponse
 
+
+    @GET("/profile")
+    suspend fun getProfile(): ProfileResponse
+
+    @POST("/profile")
+    suspend fun updateProfile(
+        @Body profileRequest: Map<String, String>
+    ): ProfileResponse
 
 }

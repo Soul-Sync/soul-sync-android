@@ -41,8 +41,13 @@ class HomeFragment : Fragment() {
 
         // Observe articles from ViewModel
         articleViewModel.articles.observe(viewLifecycleOwner) { articles ->
-            val topArticles = articles.take(12) // Ambil 8 artikel teratas
-            displayArticles(topArticles)
+            if (articles.isEmpty()) {
+                binding.progressBarArticles.visibility = View.VISIBLE
+            } else {
+                binding.progressBarArticles.visibility = View.GONE
+                val topArticles = articles.take(12) // Ambil 12 artikel teratas
+                displayArticles(topArticles)
+            }
         }
 
         // Fetch articles from API
@@ -55,7 +60,11 @@ class HomeFragment : Fragment() {
         }
     }
 
+
     private fun displayArticles(articles: List<Article>) {
+        // Sembunyikan ProgressBar setelah artikel dimuat
+        binding.progressBarArticles.visibility = View.GONE
+
         binding.articlesContainer.removeAllViews() // Hapus artikel lama sebelum menambahkan yang baru
 
         for (article in articles) {
@@ -84,6 +93,7 @@ class HomeFragment : Fragment() {
             binding.articlesContainer.addView(articleBinding.root)
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
