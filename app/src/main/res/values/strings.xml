@@ -31,5 +31,6 @@
     <string name="date_of_birth">Date of birth</string>
     <string name="profile_image">profile image</string>
     <string name="profile_saved">profile saved</string>
+    <string name="logout_button_desc">Logout</string>
 
 </resources>
