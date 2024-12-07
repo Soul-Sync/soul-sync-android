@@ -16,7 +16,7 @@ class QuestionAdapter(private var questions: List<Question>) :
     // Metode untuk memperbarui data adapter
     fun updateData(newQuestions: List<Question>) {
         this.questions = newQuestions
-        notifyDataSetChanged() // Beri tahu RecyclerView bahwa data telah berubah
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionViewHolder {

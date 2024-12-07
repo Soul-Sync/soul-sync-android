@@ -23,8 +23,8 @@ class StartActivity : AppCompatActivity() {
         // Animasi gambar bergerak ke kiri dan kanan dengan efek berulang
         val imageAnimator = ObjectAnimator.ofFloat(appImageView, View.TRANSLATION_X, -30f, 30f).apply {
             duration = 6000  // Durasi animasi 6 detik
-            repeatCount = ObjectAnimator.INFINITE  // Ulang terus-menerus
-            repeatMode = ObjectAnimator.REVERSE  // Kembali ke posisi awal setelah gerakan
+            repeatCount = ObjectAnimator.INFINITE
+            repeatMode = ObjectAnimator.REVERSE
         }
         imageAnimator.start()
 

@@ -53,7 +53,6 @@ class HomeFragment : Fragment() {
         // Fetch articles from API
         articleViewModel.fetchArticles()
 
-        // Tombol "See All" untuk membuka ArticleActivity
         binding.tvSeeAll.setOnClickListener {
             val intent = Intent(requireContext(), ArticleActivity::class.java)
             startActivity(intent)

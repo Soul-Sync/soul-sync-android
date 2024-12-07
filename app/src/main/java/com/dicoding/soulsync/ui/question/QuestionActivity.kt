@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 class QuestionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityQuestionBinding
     private lateinit var apiService: ApiService
-    private lateinit var adapter: QuestionAdapter // Deklarasi adapter
+    private lateinit var adapter: QuestionAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +31,7 @@ class QuestionActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             val userPreference = UserPreference(this@QuestionActivity)
-            val token = userPreference.token.first() // Ambil token dari DataStore
+            val token = userPreference.token.first()
 
             if (token.isNullOrEmpty()) {
                 Toast.makeText(this@QuestionActivity, "Token tidak ditemukan, silakan login ulang", Toast.LENGTH_SHORT).show()
