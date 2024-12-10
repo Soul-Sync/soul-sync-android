@@ -8,7 +8,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.soulsync.api.ApiClient
 import com.dicoding.soulsync.api.ApiService
-import com.dicoding.soulsync.ui.question.QuestionAdapter
 import com.dicoding.soulsync.databinding.ActivityQuestionBinding
 import com.dicoding.soulsync.utils.UserPreference
 import kotlinx.coroutines.flow.first
