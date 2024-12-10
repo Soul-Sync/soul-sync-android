@@ -17,7 +17,6 @@ import com.dicoding.soulsync.databinding.FragmentProfileBinding
 import com.dicoding.soulsync.model.ProfileResponse
 import com.dicoding.soulsync.model.User
 import com.dicoding.soulsync.ui.login.LoginActivity
-import com.dicoding.soulsync.ui.profile.EditProfileActivity
 import com.dicoding.soulsync.utils.UserPreference
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
