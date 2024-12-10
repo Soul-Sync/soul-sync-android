@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.dicoding.soulsync.R
 import com.dicoding.soulsync.databinding.FragmentHomeBinding
 import com.dicoding.soulsync.databinding.ItemArticleCardBinding
@@ -14,14 +17,17 @@ import com.dicoding.soulsync.model.Article
 import com.dicoding.soulsync.ui.article.ArticleActivity
 import com.dicoding.soulsync.ui.article.ArticleViewModel
 import com.dicoding.soulsync.ui.article.DetailArticleActivity
-import com.dicoding.soulsync.ui.questionnaire.QuestionnaireActivity
+import com.dicoding.soulsync.ui.questionnaire.StartQuestActivity
+import com.dicoding.soulsync.utils.UserPreference
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val articleViewModel: ArticleViewModel by viewModels()
+    private lateinit var userPreference: UserPreference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,12 +40,18 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        userPreference = UserPreference(requireContext())
+
+        // Tampilkan nama pengguna
+        observeUserName()
+
+        // Tombol untuk memulai kuisioner
         binding.btnStart.setOnClickListener {
-            val intent = Intent(requireContext(), QuestionnaireActivity::class.java)
+            val intent = Intent(requireContext(), StartQuestActivity::class.java)
             startActivity(intent)
         }
 
-        // Observe articles from ViewModel
+        // Observe articles dari ViewModel
         articleViewModel.articles.observe(viewLifecycleOwner) { articles ->
             if (articles.isEmpty()) {
                 binding.progressBarArticles.visibility = View.VISIBLE
@@ -50,15 +62,25 @@ class HomeFragment : Fragment() {
             }
         }
 
-        // Fetch articles from API
+        // Fetch articles dari API
         articleViewModel.fetchArticles()
 
+        // Tombol "See All" untuk membuka ArticleActivity
         binding.tvSeeAll.setOnClickListener {
             val intent = Intent(requireContext(), ArticleActivity::class.java)
             startActivity(intent)
         }
     }
 
+    private fun observeUserName() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                userPreference.name.collect { name ->
+                    binding?.tvGreeting?.text = "Hi, ${name ?: "User"} \uD83D\uDE0A"
+                }
+            }
+        }
+    }
 
     private fun displayArticles(articles: List<Article>) {
         // Sembunyikan ProgressBar setelah artikel dimuat
@@ -92,7 +114,6 @@ class HomeFragment : Fragment() {
             binding.articlesContainer.addView(articleBinding.root)
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

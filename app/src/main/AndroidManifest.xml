@@ -21,7 +21,7 @@
             android:name=".ui.profile.EditProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.questionnaire.QuestionnaireActivity"
+            android:name=".ui.questionnaire.StartQuestActivity"
             android:exported="false" />
         <activity
             android:name=".ui.article.DetailArticleActivity"

@@ -10,4 +10,11 @@
     <color name="pink">#FF4364</color>
     <color name="pinkmuda">#FC96A8</color>
     <color name="pinkmuda2">#FCC3CB</color>
+    <color name="pinkmuda3">#FFEBF2</color>
+    <color name="gray">#aaa</color>
+    <color name="gray2">#818183</color>
+    <color name="birumint">#6BC2D8</color>
+    <color name="birumuda">#E1F5FE</color>
+    <color name="blue">#007BFF</color>
+    <color name="gray_light">#E0E0E0</color>
 </resources>

@@ -4,12 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.dicoding.soulsync.R
 import com.dicoding.soulsync.databinding.ActivityQuestionnaireBinding
 import com.dicoding.soulsync.ui.question.QuestionActivity
 
 
-class QuestionnaireActivity : AppCompatActivity() {
+class StartQuestActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityQuestionnaireBinding
 

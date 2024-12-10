@@ -65,7 +65,6 @@ class ProfileFragment : Fragment() {
         }
     }
 
-
     private fun fetchProfile() {
         lifecycleScope.launch {
             try {
@@ -76,11 +75,13 @@ class ProfileFragment : Fragment() {
                     return@launch
                 }
 
-                // Tampilkan ProgressBar
-                binding.progressBar.visibility = View.VISIBLE
+                // Tampilkan ProgressBar jika binding tidak null
+                _binding?.progressBar?.visibility = View.VISIBLE
 
                 val apiClient = ApiClient(localToken).createService()
                 val response: ProfileResponse = apiClient.getProfile()
+
+                if (!isAdded || _binding == null) return@launch // Pastikan fragment masih aktif
 
                 if (response.status == "success") {
                     val user = response.payload.user
@@ -92,16 +93,18 @@ class ProfileFragment : Fragment() {
                 Log.e("ProfileFragment", "Error fetching profile: ${e.message}")
                 Toast.makeText(requireContext(), "Failed to fetch profile", Toast.LENGTH_SHORT).show()
             } finally {
-                // Sembunyikan ProgressBar
-                binding.progressBar.visibility = View.GONE
+                // Sembunyikan ProgressBar jika binding tidak null
+                _binding?.progressBar?.visibility = View.GONE
             }
         }
     }
 
     private fun displayProfile(user: User) {
-        binding.nameTextView.text = "${user.name}"
-        binding.dateTextView.text = " ${user.date_of_birth ?: "-"}"
-        binding.genderTextView.text = "${user.gender ?: "-"}"
+        _binding?.let { binding ->
+            binding.nameTextView.text = user.name
+            binding.dateTextView.text = user.date_of_birth ?: "-"
+            binding.genderTextView.text = user.gender ?: "-"
+        }
         lifecycleScope.launch {
             userPreference.saveName(user.name)
         }
@@ -128,6 +131,7 @@ class ProfileFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        Log.d("ProfileFragment", "onDestroyView called, clearing binding")
         _binding = null
     }
 }
