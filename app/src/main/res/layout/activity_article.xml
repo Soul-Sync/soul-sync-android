@@ -75,7 +75,7 @@
         android:layout_marginBottom="-80dp"
         android:layout_marginHorizontal="0dp"
         android:layout_alignParentBottom="true"
-        app:cardCornerRadius="70dp"
+        app:cardCornerRadius="30dp"
         android:background="@color/white"
         app:cardElevation="8dp">
 
