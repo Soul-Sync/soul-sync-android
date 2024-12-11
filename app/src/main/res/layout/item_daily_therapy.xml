@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="10dp"
-    app:cardElevation="4dp">
+    app:cardElevation="4dp"
+    android:backgroundTint="@color/pinkmuda3">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,6 +23,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:text="Therapy Title"
+            android:textColor="@color/black"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <!-- CheckBox di sisi kanan -->
