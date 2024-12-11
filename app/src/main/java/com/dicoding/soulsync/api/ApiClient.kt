@@ -5,6 +5,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
+import okhttp3.logging.HttpLoggingInterceptor
+
 class ApiClient(private val token: String?) {
 
     private val client = OkHttpClient.Builder()
@@ -15,13 +17,16 @@ class ApiClient(private val token: String?) {
             }
             chain.proceed(request.build())
         }
+        .addInterceptor(HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY // Log seluruh body request & response
+        })
         .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
         .build()
 
     fun createService(): ApiService {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://soul-sync-442212.et.r.appspot.com/")
+            .baseUrl("https://bangkit-442612.et.r.appspot.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

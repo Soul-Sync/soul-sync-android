@@ -10,8 +10,7 @@ data class LoginResponse(
 data class Payload(
     val token: String,
     val token_type: String,
-    val user: User,
-    val question: List<Question>
+    val user: User
 )
 
 data class User(

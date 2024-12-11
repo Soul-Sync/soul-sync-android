@@ -3,15 +3,21 @@ package com.dicoding.soulsync.model
 data class QuestionResponse(
     val status: String,
     val message: String,
-    val payload: Payload
+    val payload: QuestionPayload
 )
 
+data class QuestionPayload(
+    val question: List<QuestionItem>
+)
 
-data class Question(
+data class QuestionItem(
     val id: String,
     val question: String,
-    val options: Map<String, String>, // Key-value untuk opsi jawaban
+    val options: Map<String, String>?,
     val sort: Int,
-    val createdAt: String,
-    val updatedAt: String
+    val keyword: String
+)
+
+data class AnswerRequest(
+    val answer: Map<String, Int> // Menggunakan Map untuk menyimpan jawaban
 )

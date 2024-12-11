@@ -3,19 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="8dp">
 
     <TextView
-        android:id="@+id/questionTextView"
+        android:id="@+id/tvQuestion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pertanyaan"/>
-    <!--        android:textAppearance="?attr/textAppearanceMedium" />-->
+        android:text="Question text"
+        android:textSize="16sp"
+        android:textColor="#000" />
 
+    <!-- RadioGroup untuk pilihan -->
     <RadioGroup
-        android:id="@+id/optionsRadioGroup"
+        android:id="@+id/radioGroupOptions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="8dp" />
+        android:visibility="gone" />
+
+    <!-- EditText untuk input manual -->
+    <EditText
+        android:id="@+id/etInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Input your answer"
+        android:visibility="gone"
+        android:inputType="number" />
 </LinearLayout>

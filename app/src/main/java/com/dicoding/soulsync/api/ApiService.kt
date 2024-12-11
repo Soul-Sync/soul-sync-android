@@ -1,8 +1,10 @@
 package com.dicoding.soulsync.api
 
+import com.dicoding.soulsync.model.AnswerRequest
 import com.dicoding.soulsync.model.LoginResponse
 import com.dicoding.soulsync.model.ProfileResponse
 import com.dicoding.soulsync.model.QuestionResponse
+import com.dicoding.soulsync.model.QuestionnaireResponse
 import com.dicoding.soulsync.model.RegisterResponse
 import retrofit2.Call
 import retrofit2.Response
@@ -34,5 +36,14 @@ interface ApiService {
     @GET("/question")
     suspend fun getQuestions(): Response<QuestionResponse>
 
+    @POST("/questionnaire")
+    suspend fun submitQuestionnaire(
+        @Body answers: AnswerRequest
+    ): Response<QuestionnaireResponse>
+
+    @GET("/questionnaire/{id}")
+    suspend fun getQuestionnaireById(
+        @retrofit2.http.Path("id") id: String
+    ): Response<QuestionnaireResponse>
 
 }

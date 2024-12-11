@@ -3,55 +3,76 @@ package com.dicoding.soulsync.ui.question
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.soulsync.R
-import com.dicoding.soulsync.model.Question
+import com.dicoding.soulsync.model.QuestionItem
 
-class QuestionAdapter(private var questions: List<Question>) :
-    RecyclerView.Adapter<QuestionAdapter.QuestionViewHolder>() {
+class QuestionAdapter(
+    private val onAnswerSelected: (String, Int) -> Unit // Callback dengan Int
+) : RecyclerView.Adapter<QuestionAdapter.QuestionViewHolder>() {
 
-    // Metode untuk memperbarui data adapter
-    fun updateData(newQuestions: List<Question>) {
-        this.questions = newQuestions
+    private val questions = mutableListOf<QuestionItem>()
+
+    fun submitList(newQuestions: List<QuestionItem>) {
+        questions.clear()
+        questions.addAll(newQuestions)
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_question, parent, false)
-        return QuestionViewHolder(view)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_question, parent, false)
+        return QuestionViewHolder(view, onAnswerSelected)
     }
 
     override fun onBindViewHolder(holder: QuestionViewHolder, position: Int) {
-        holder.bind(questions[position])
+        val question = questions[position]
+        holder.bind(question)
     }
 
     override fun getItemCount(): Int = questions.size
 
-    inner class QuestionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val questionTextView: TextView = itemView.findViewById(R.id.questionTextView)
-        private val optionsRadioGroup: RadioGroup = itemView.findViewById(R.id.optionsRadioGroup)
+    class QuestionViewHolder(
+        itemView: View,
+        private val onAnswerSelected: (String, Int) -> Unit
+    ) : RecyclerView.ViewHolder(itemView) {
+        private val questionText: TextView = itemView.findViewById(R.id.tvQuestion)
+        private val optionsGroup: RadioGroup = itemView.findViewById(R.id.radioGroupOptions)
+        private val inputField: EditText = itemView.findViewById(R.id.etInput)
 
-        fun bind(question: Question) {
-            questionTextView.text = question.question
+        fun bind(question: QuestionItem) {
+            questionText.text = question.question
 
-            optionsRadioGroup.removeAllViews()
+            if (question.options == null) {
+                optionsGroup.visibility = View.GONE
+                inputField.visibility = View.VISIBLE
 
-            question.options?.forEach { (key, value) ->
-                val radioButton = RadioButton(itemView.context).apply {
-                    text = value
-                    id = key.toInt()
+                inputField.setOnFocusChangeListener { _, hasFocus ->
+                    if (!hasFocus) {
+                        val answerText = inputField.text.toString()
+                        val answer = answerText.toIntOrNull() ?: 0 // Default ke 0 jika gagal parsing
+                        onAnswerSelected(question.keyword, answer)
+                    }
                 }
-                optionsRadioGroup.addView(radioButton)
-            } ?: run {
-                val radioButton = RadioButton(itemView.context).apply {
-                    text = "Tidak ada opsi"
-                    isEnabled = false
+            } else {
+                optionsGroup.visibility = View.VISIBLE
+                inputField.visibility = View.GONE
+
+                optionsGroup.removeAllViews()
+                question.options.forEach { (key, value) ->
+                    val radioButton = RadioButton(itemView.context).apply {
+                        id = key.toInt()
+                        text = value
+                    }
+                    optionsGroup.addView(radioButton)
                 }
-                optionsRadioGroup.addView(radioButton)
+
+                optionsGroup.setOnCheckedChangeListener { _, checkedId ->
+                    onAnswerSelected(question.keyword, checkedId)
+                }
             }
         }
     }
