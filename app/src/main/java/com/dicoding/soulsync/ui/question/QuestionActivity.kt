@@ -1,5 +1,6 @@
 package com.dicoding.soulsync.ui.question
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -70,8 +71,22 @@ class QuestionActivity : AppCompatActivity() {
         }
 
         viewModel.error.observe(this) { errorMessage ->
-            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Terjadi kesalahan: $errorMessage. Silakan coba lagi.", Toast.LENGTH_LONG).show()
             Log.e("QuestionActivity", "Error: $errorMessage")
         }
+
+
+        viewModel.submissionResult.observe(this) { result ->
+            result?.let {
+                Toast.makeText(this, "Jawaban berhasil dikirim: ${it.message}", Toast.LENGTH_LONG).show()
+                Log.d("QuestionActivity", "Submission success: ${it.message}")
+
+                // Navigasi ke ResultActivity dengan ID kuisioner
+                val intent = Intent(this, ResultActivity::class.java)
+                intent.putExtra("QUESTIONNAIRE_ID", it.payload?.questionnaire?.id) // Pastikan ID tersedia
+                startActivity(intent)
+            }
+        }
+
     }
 }

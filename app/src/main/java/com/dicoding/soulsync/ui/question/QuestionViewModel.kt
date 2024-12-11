@@ -53,10 +53,10 @@ class QuestionViewModel(private val token: String) : ViewModel() {
                 // Buat objek request
                 val request = AnswerRequest(answers)
 
-                // Log data yang akan dikirim ke server
-                Log.d("QuestionViewModel", "Submitting answers: $request")
+                // Log data request sebelum dikirim
+                Log.d("QuestionViewModel", "Request Data: $request")
 
-                // Kirim request ke server
+                // Kirim permintaan ke server
                 val response = apiService.submitQuestionnaire(request)
 
                 // Periksa respons
@@ -64,9 +64,34 @@ class QuestionViewModel(private val token: String) : ViewModel() {
                     _submissionResult.postValue(response.body())
                     Log.d("QuestionViewModel", "Answers submitted successfully")
                 } else {
+                    // Log error message dan error body
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("QuestionViewModel", "Error: ${response.message()} (${response.code()})")
+                    Log.e("QuestionViewModel", "Server Error Body: $errorBody")
+                    _error.postValue("Error: ${response.message()} (${response.code()})")
+                }
+            } catch (e: Exception) {
+                // Log exception
+                val exceptionMessage = "Exception: ${e.message}"
+                _error.postValue(exceptionMessage)
+                Log.e("QuestionViewModel", exceptionMessage, e)
+            }
+        }
+    }
+
+
+    fun fetchQuestionnaireById(id: String) {
+        viewModelScope.launch {
+            try {
+                val response = apiService.getQuestionnaireById(id)
+                if (response.isSuccessful) {
+                    _submissionResult.postValue(response.body())
+                    Log.d("QuestionViewModel", "Questionnaire fetched successfully")
+                } else {
+                    val errorBody = response.errorBody()?.string()
                     val errorMessage = "Error: ${response.message()} (${response.code()})"
                     _error.postValue(errorMessage)
-                    Log.e("QuestionViewModel", errorMessage)
+                    Log.e("QuestionViewModel", "Error Body: $errorBody")
                 }
             } catch (e: Exception) {
                 val exceptionMessage = "Exception: ${e.message}"
@@ -75,5 +100,7 @@ class QuestionViewModel(private val token: String) : ViewModel() {
             }
         }
     }
+
+
 
 }
