@@ -1,6 +1,7 @@
 package com.dicoding.soulsync.api
 
 import com.dicoding.soulsync.model.AnswerRequest
+import com.dicoding.soulsync.model.HistoryResponse
 import com.dicoding.soulsync.model.LoginResponse
 import com.dicoding.soulsync.model.ProfileResponse
 import com.dicoding.soulsync.model.QuestionResponse
@@ -45,5 +46,9 @@ interface ApiService {
     suspend fun getQuestionnaireById(
         @retrofit2.http.Path("id") id: String
     ): Response<QuestionnaireResponse>
+
+    @GET("/questionnaire")
+    suspend fun getQuestionnaireHistory(): Response<HistoryResponse>
+
 
 }

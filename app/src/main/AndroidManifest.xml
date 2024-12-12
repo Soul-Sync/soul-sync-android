@@ -15,6 +15,9 @@
         android:theme="@style/Theme.SoulSync"
         tools:targetApi="31">
         <activity
+            android:name=".ui.questionnaire.HistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.question.ResultActivity"
             android:exported="false" />
         <activity

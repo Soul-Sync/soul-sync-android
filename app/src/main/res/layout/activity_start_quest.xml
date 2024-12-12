@@ -75,6 +75,27 @@
                 app:cornerRadius="8dp"
                 android:layout_marginTop="3dp" />
 
+
+            <TextView
+                android:id="@+id/tvHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/history"
+                android:textColor="@android:color/black"
+                android:layout_below="@id/startKuisioner"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="25dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewHistory"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/tvHistory"
+                android:layout_marginTop="16dp"
+                android:visibility="visible" />
+
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>
