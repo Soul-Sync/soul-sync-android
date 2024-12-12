@@ -32,5 +32,6 @@
     <string name="profile_image">profile image</string>
     <string name="profile_saved">profile saved</string>
     <string name="logout_button_desc">Logout</string>
+    <string name="result">Result</string>
 
 </resources>

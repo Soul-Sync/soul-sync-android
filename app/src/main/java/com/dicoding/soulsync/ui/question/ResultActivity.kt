@@ -64,13 +64,13 @@ class ResultActivity : AppCompatActivity() {
                     "- ${it.title} by ${it.artist}"
                 }
                 findViewById<TextView>(R.id.tvMusicRecommendations).text =
-                    "Music Recommendations:\n$musicRecommendations"
+                    "$musicRecommendations"
 
                 val therapyRecommendations = questionnaire.theraphy_recommendation.joinToString("\n") {
                     "- ${it.name}"
                 }
                 findViewById<TextView>(R.id.tvTherapyRecommendations).text =
-                    "Therapy Recommendations:\n$therapyRecommendations"
+                    "$therapyRecommendations"
             }
         }
 
@@ -79,4 +79,5 @@ class ResultActivity : AppCompatActivity() {
             Toast.makeText(this, "Failed to fetch data: $errorMessage", Toast.LENGTH_LONG).show()
         }
     }
+
 }
