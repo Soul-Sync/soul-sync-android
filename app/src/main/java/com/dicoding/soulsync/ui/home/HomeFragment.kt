@@ -51,6 +51,9 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
 
+
+
+
         // Observe articles dari ViewModel
         articleViewModel.articles.observe(viewLifecycleOwner) { articles ->
             if (articles.isEmpty()) {

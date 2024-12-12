@@ -79,5 +79,9 @@ dependencies {
 
     implementation ("com.squareup.picasso:picasso:2.8")
 
+    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
+    implementation ("com.google.android.material:material:1.6.1")
+
+
 
 }

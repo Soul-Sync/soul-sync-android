@@ -15,7 +15,9 @@ data class QuestionItem(
     val question: String,
     val options: Map<String, String>?,
     val sort: Int,
-    val keyword: String
+    val keyword: String,
+    var selectedOption: Int? = null // Jawaban pengguna (ID RadioButton)
+
 )
 
 data class AnswerRequest(

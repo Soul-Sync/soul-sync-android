@@ -52,7 +52,7 @@ class QuestionActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.submitButton).setOnClickListener {
             if (answers.size == adapter.itemCount) {
-                // Tampilkan ProgressBar
+                Log.d("QuestionActivity", "Answers to Submit: $answers") // Log data jawaban
                 showLoading(true)
                 viewModel.submitAnswers(answers)
             } else {
