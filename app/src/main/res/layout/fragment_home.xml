@@ -9,7 +9,7 @@
         android:id="@+id/tv_greeting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello"
+        android:text="Halo, Nama User (emot senyum)"
         android:textSize="22sp"
         android:textStyle="bold"
         android:textColor="?attr/android:textColorPrimary" />
@@ -75,7 +75,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bicara dengan Chatbot"
+            android:text="Konsultasi dengan Chatbot"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -94,7 +94,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Artikel Kesehatan"
+            android:text="Artikel Kesehatan Mental"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="?attr/android:textColorPrimary"/>
@@ -103,7 +103,7 @@
             android:id="@+id/tv_see_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="See All"
+            android:text="Lebih Lengkap"
             android:textColor="#E91E63"
             android:layout_gravity="center_vertical" />
     </LinearLayout>

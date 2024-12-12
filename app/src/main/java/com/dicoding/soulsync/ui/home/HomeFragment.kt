@@ -84,7 +84,7 @@ class HomeFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 userPreference.name.collect { name ->
-                    binding?.tvGreeting?.text = "Hi ${name ?: ""} \uD83D\uDE0A"
+                    binding?.tvGreeting?.text = "Halo, ${name ?: ""} \uD83D\uDE0A"
                 }
             }
         }

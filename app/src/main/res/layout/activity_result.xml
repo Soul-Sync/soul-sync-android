@@ -67,6 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Status: "
+                    android:textColor="@android:color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:drawablePadding="8dp" />
@@ -83,6 +84,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Music Recommendations:"
+                    android:textColor="@android:color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:layout_marginTop="8dp" />
@@ -91,6 +93,7 @@
                     android:id="@+id/tvMusicRecommendations"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
                     android:text="Music list will be displayed here."
                     android:textSize="16sp"
                     android:layout_marginTop="4dp"
@@ -108,6 +111,7 @@
                     android:layout_height="wrap_content"
                     android:text="Therapy Recommendations:"
                     android:textSize="18sp"
+                    android:textColor="@android:color/black"
                     android:textStyle="bold"
                     android:layout_marginTop="8dp" />
 
@@ -117,6 +121,7 @@
                     android:layout_height="wrap_content"
                     android:text="Therapy list will be displayed here."
                     android:textSize="16sp"
+                    android:textColor="@android:color/black"
                     android:layout_marginTop="4dp"
                     android:lineSpacingExtra="4dp" />
 
