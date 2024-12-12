@@ -35,17 +35,27 @@ class MusicAdapter(private val musicList: List<Music>) :
         holder.songNameTextView.text = music.name
         holder.artistTextView.text = music.artist // Set artist name
 
+        // Set initial button state
+        if (currentPlayingHolder == holder) {
+            holder.playButton.setImageResource(R.drawable.pause)
+        } else {
+            holder.playButton.setImageResource(R.drawable.play)
+        }
+
         holder.playButton.setOnClickListener {
             val isPlaying = currentPlayingHolder == holder
             if (isPlaying) {
+                // Pause the current song
                 currentMediaPlayer?.pause()
                 holder.playButton.setImageResource(R.drawable.play)
                 currentPlayingHolder = null
                 currentMediaPlayer = null
             } else {
+                // Stop the previous song
                 currentMediaPlayer?.release()
-                currentPlayingHolder?.playButton?.setImageResource(R.drawable.pause)
+                currentPlayingHolder?.playButton?.setImageResource(R.drawable.play)
 
+                // Start the new song
                 currentMediaPlayer = MediaPlayer.create(holder.itemView.context, music.audioResId)
                 currentMediaPlayer?.start()
                 holder.playButton.setImageResource(R.drawable.pause)
@@ -62,3 +72,5 @@ class MusicAdapter(private val musicList: List<Music>) :
         currentMediaPlayer = null
     }
 }
+
+
