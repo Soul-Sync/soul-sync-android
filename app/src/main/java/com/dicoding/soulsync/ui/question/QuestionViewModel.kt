@@ -61,6 +61,8 @@ class QuestionViewModel(private val token: String) : ViewModel() {
 
                 // Periksa respons
                 if (response.isSuccessful) {
+                    // Log data yang diterima dari server
+                    Log.d("QuestionViewModel", "Server Response: ${response.body()}")
                     _submissionResult.postValue(response.body())
                     Log.d("QuestionViewModel", "Answers submitted successfully")
                 } else {
@@ -78,6 +80,7 @@ class QuestionViewModel(private val token: String) : ViewModel() {
             }
         }
     }
+
 
 
     fun fetchQuestionnaireById(id: String) {

@@ -4,56 +4,56 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.soulsync.R
-import com.dicoding.soulsync.databinding.FragmentMusicRelaxBinding
+import com.dicoding.soulsync.model.Music
 
 class MusicRelaxFragment : Fragment() {
 
-    private var _binding: FragmentMusicRelaxBinding? = null
-    private val binding get() = _binding!!
-
-    private val musicRelaxViewModel: MusicRelaxViewModel by viewModels()
-    private lateinit var adapter: MusicRelaxAdapter
+    private lateinit var musicAdapter: MusicAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentMusicRelaxBinding.inflate(inflater, container, false)
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_music_relax, container, false)
+        val musicRecyclerView: RecyclerView = view.findViewById(R.id.musicRecyclerView)
 
-        setupRecyclerView()
-        observeMusicList()
-        setupBackButton() // Tambahkan listener untuk tombol kembali
-
-        return binding.root
-    }
-
-    private fun setupRecyclerView() {
-        adapter = MusicRelaxAdapter(emptyList(), emptyList())
-        binding.recyclerViewMusicRelax.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerViewMusicRelax.adapter = adapter
-    }
-
-    private fun observeMusicList() {
-        musicRelaxViewModel.musicList.observe(viewLifecycleOwner) { musicList ->
-            val musicImages = musicList.map { R.drawable.contoh_gambar_lagu }
-            adapter.updateData(musicList, musicImages)
+        val btnBack: ImageView = view.findViewById(R.id.btnBack)
+        btnBack.setOnClickListener {
+            // Kembali ke fragment sebelumnya
+            parentFragmentManager.popBackStack()
         }
+        // Sample data
+        val musicList = listOf(
+
+            Music("Leaving","AERØHEAD", R.raw.leaving),
+            Music("Me Time","Avanti", R.raw.me_time),
+            Music("Universe","Sappheiros", R.raw.universe),
+            Music("Gravity","Extenz", R.raw.gravity),
+            Music("Awake","Nomyn", R.raw.awake),
+            Music("Etheral","Punch Deck", R.raw.ethereal),
+            Music("Blue","Yung Kai", R.raw.blue),
+            Music("Love","Wave To Earth", R.raw.love),
+            Music("K","Cigarettes After Sex", R.raw.k),
+            Music("Apocalypse","Cigarettes After Sex", R.raw.apocalypse)
+
+
+        )
+
+        // Setup RecyclerView
+        musicAdapter = MusicAdapter(musicList)
+        musicRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        musicRecyclerView.adapter = musicAdapter
+
+        return view
     }
 
-    private fun setupBackButton() {
-        binding.btnBack.setOnClickListener {
-            // Navigasi ke halaman sebelumnya
-            requireActivity().onBackPressedDispatcher.onBackPressed()
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onDestroy() {
+        super.onDestroy()
+        musicAdapter.releaseMediaPlayer()
     }
 }
