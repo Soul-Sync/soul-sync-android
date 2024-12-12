@@ -54,6 +54,18 @@
         </LinearLayout>
     </LinearLayout>
 
+    <!-- Button to Chatbot -->
+    <Button
+        android:id="@+id/btn_chatbot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Bicara dengan Chatbot"
+        android:backgroundTint="@android:color/holo_blue_dark"
+        android:textColor="@android:color/white"
+        android:padding="10dp"
+        android:textAllCaps="false" />
+
     <!-- Section Artikel -->
     <LinearLayout
         android:layout_width="match_parent"

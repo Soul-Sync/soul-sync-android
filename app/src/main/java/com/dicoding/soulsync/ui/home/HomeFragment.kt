@@ -17,6 +17,7 @@ import com.dicoding.soulsync.model.Article
 import com.dicoding.soulsync.ui.article.ArticleActivity
 import com.dicoding.soulsync.ui.article.ArticleViewModel
 import com.dicoding.soulsync.ui.article.DetailArticleActivity
+import com.dicoding.soulsync.ui.chatbot.ChatbotActivity
 import com.dicoding.soulsync.ui.questionnaire.StartQuestActivity
 import com.dicoding.soulsync.utils.UserPreference
 import com.squareup.picasso.Picasso
@@ -51,7 +52,11 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
 
-
+// Tombol untuk membuka Chatbot
+        binding.btnChatbot.setOnClickListener {
+            val intent = Intent(requireContext(), ChatbotActivity::class.java)
+            startActivity(intent)
+        }
 
 
         // Observe articles dari ViewModel
