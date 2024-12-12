@@ -6,8 +6,8 @@
         <item name="colorPrimaryVariant">@color/pinkmuda</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorSecondary">@color/pinkmuda2</item>
+        <item name="colorSecondaryVariant">@color/pinkmuda3</item>
         <item name="colorOnSecondary">@color/black</item>
 <!--        <item name="android:fontFamily">@font/mont</item>-->
 

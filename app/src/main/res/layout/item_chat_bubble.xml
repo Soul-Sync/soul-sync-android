@@ -12,6 +12,7 @@
         android:padding="8dp"
         android:background="@drawable/chat_bubble_user"
         android:text="User message"
+        android:textColor="@color/black"
         android:layout_gravity="end" />
 
     <TextView
@@ -21,5 +22,6 @@
         android:padding="8dp"
         android:background="@drawable/chat_bubble_model"
         android:text="Bot response"
+        android:textColor="@color/black"
         android:layout_gravity="start" />
 </LinearLayout>

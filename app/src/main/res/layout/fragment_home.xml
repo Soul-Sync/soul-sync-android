@@ -22,7 +22,7 @@
         android:padding="14dp"
         android:layout_marginTop="16dp"
         android:orientation="horizontal"
-        android:backgroundTint="@color/pinkmuda2">
+        android:backgroundTint="@color/pinkmuda3">
 
 
         <ImageView
@@ -55,16 +55,32 @@
     </LinearLayout>
 
     <!-- Button to Chatbot -->
-    <Button
+    <LinearLayout
         android:id="@+id/btn_chatbot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Bicara dengan Chatbot"
-        android:backgroundTint="@android:color/holo_blue_dark"
-        android:textColor="@android:color/white"
-        android:padding="10dp"
-        android:textAllCaps="false" />
+        android:orientation="horizontal"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/rounded_corners"
+        android:padding="8dp"
+        android:gravity="center_vertical"
+        android:backgroundTint="@color/pinkmuda3">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/chtbot"
+            android:contentDescription="Chatbot Icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bicara dengan Chatbot"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginStart="10dp" />
+    </LinearLayout>
 
     <!-- Section Artikel -->
     <LinearLayout
