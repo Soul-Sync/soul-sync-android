@@ -12,11 +12,11 @@
     <string name="mulai">Mulai</string>
     <string name="illustration">illustration\n</string>
     <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="login">Login</string>
+    <string name="password">Kata Sandi</string>
+    <string name="login">MASUK</string>
     <string name="no_account_register">Belum punya akun? Daftar Akun</string>
     <string name="name">Name</string>
-    <string name="signup">Sign Up</string>
+    <string name="signup">DAFTAR</string>
     <string name="search_button_desc">search</string>
     <string name="back_button_desc">back</string>
     <string name="article_title">Artikel</string>
@@ -32,7 +32,7 @@
     <string name="profile_image">profile image</string>
     <string name="profile_saved">profile saved</string>
     <string name="logout_button_desc">Logout</string>
-    <string name="result">Result</string>
-    <string name="history">History</string>
+    <string name="result">Hasil</string>
+    <string name="history">Riwayat</string>
 
 </resources>
