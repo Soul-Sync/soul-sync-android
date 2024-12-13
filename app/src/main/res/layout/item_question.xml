@@ -19,7 +19,9 @@
         android:id="@+id/radioGroupOptions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone" />
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
 
     <!-- EditText untuk input manual -->
     <EditText
@@ -28,5 +30,7 @@
         android:layout_height="wrap_content"
         android:hint="Input your answer"
         android:visibility="gone"
-        android:inputType="number" />
+        android:inputType="number"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
 </LinearLayout>
