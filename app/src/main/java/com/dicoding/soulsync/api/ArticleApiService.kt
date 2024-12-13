@@ -11,7 +11,7 @@ interface ArticleApiService {
         @Query("engine") engine: String = "google_news",
         @Query("q") query: String = "mental+health",
         @Query("hl") language: String = "id",
-        @Query("api_key") apiKey: String = "3350614cece257bf1be6e54a1e6cde5498ec157af2c1e3921cc40b3e4433c230"
+        @Query("api_key") apiKey: String = "db8f07c29686e3727b23a5553884c97a9b26eacf74ed8a1af3fdaa41a3acdad9"
     ): Call<ArticleResponse>
 }
 

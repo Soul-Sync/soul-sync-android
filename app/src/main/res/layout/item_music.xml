@@ -33,6 +33,7 @@
         android:id="@+id/playButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/pinkmuda3"
         android:src="@drawable/play"
         android:contentDescription="Play Button"
         android:layout_gravity="center" />

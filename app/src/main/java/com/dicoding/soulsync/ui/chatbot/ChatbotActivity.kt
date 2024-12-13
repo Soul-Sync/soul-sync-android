@@ -22,7 +22,7 @@ class ChatbotActivity : AppCompatActivity() {
     private lateinit var chat: Chat
 
     // Letakkan API Key di sini
-    private val apiKey = "YOU_API_KEY"
+    private val apiKey = "AIzaSyBRsilwk-86aimzOiHCQ9CSbZhK_-iEOC4"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
